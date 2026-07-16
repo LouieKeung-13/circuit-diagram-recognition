@@ -4,7 +4,7 @@
 
 ## 📖 Overview
 
-This skill leverages advanced Vision-Language Models (VLMs) to analyze circuit schematic images and extract structured component lists, pin definitions, connectivity topologies, and functional modules. Designed for seamless integration into AI agent workflows.
+This skill leverages Vision-Language Models (VLMs) to analyze circuit schematic images and extract structured component lists, pin definitions, connectivity topologies, and functional modules. Designed for seamless integration into AI agent workflows.
 
 **Target Users:** Electronic engineers, hardware developers, or any users requiring automated circuit analysis.
 
