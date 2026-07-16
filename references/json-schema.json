@@ -1,0 +1,224 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Circuit Diagram Analysis Result",
+  "description": "Structured representation of a circuit diagram analysis",
+  "type": "object",
+  "required": ["metadata", "components", "connections", "modules"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "description": "Analysis metadata and confidence levels",
+      "required": ["confidence", "model_version"],
+      "properties": {
+        "image_source": {
+          "type": "string",
+          "enum": ["photo", "scan", "digital"],
+          "description": "Source type of the input image"
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["HIGH", "MEDIUM", "LOW"],
+          "description": "Overall confidence level of the analysis"
+        },
+        "model_version": {
+          "type": "string",
+          "description": "VLM model used for analysis"
+        },
+        "processing_time_ms": {
+          "type": "integer",
+          "description": "Time taken to process the image in milliseconds"
+        }
+      }
+    },
+    "components": {
+      "type": "array",
+      "description": "List of identified electronic components",
+      "items": {
+        "type": "object",
+        "required": ["id", "type_en"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Component reference designator (e.g., R1, C2, U3)"
+          },
+          "type_en": {
+            "type": "string",
+            "description": "Component type in English (e.g., Resistor, Capacitor, IC)"
+          },
+          "type_cn": {
+            "type": "string",
+            "description": "Component type in Chinese (optional)"
+          },
+          "model": {
+            "type": "string",
+            "description": "Specific model number (e.g., STM32F103, LM358)"
+          },
+          "package": {
+            "type": "string",
+            "description": "Physical package type (e.g., 0805, LQFP-48, DIP-8)"
+          },
+          "value": {
+            "type": "string",
+            "description": "Component value (e.g., 10kΩ, 100uF, 3.3V)"
+          },
+          "pins": {
+            "type": "array",
+            "description": "Pin definitions for ICs and connectors",
+            "items": {
+              "type": "object",
+              "required": ["number", "name"],
+              "properties": {
+                "number": {
+                  "oneOf": [
+                    { "type": "integer" },
+                    { "type": "string" }
+                  ],
+                  "description": "Pin number or label"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Pin signal name (e.g., VCC, GND, CLK)"
+                },
+                "function_en": {
+                  "type": "string",
+                  "description": "Pin function description in English"
+                },
+                "function_cn": {
+                  "type": "string",
+                  "description": "Pin function description in Chinese"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "connections": {
+      "type": "array",
+      "description": "Electrical connections between components",
+      "items": {
+        "type": "object",
+        "required": ["from", "to"],
+        "properties": {
+          "from": {
+            "type": "object",
+            "required": ["component", "pin"],
+            "properties": {
+              "component": {
+                "type": "string",
+                "description": "Source component ID"
+              },
+              "pin": {
+                "oneOf": [
+                  { "type": "integer" },
+                  { "type": "string" }
+                ],
+                "description": "Source pin number or label"
+              }
+            }
+          },
+          "to": {
+            "type": "object",
+            "required": ["component", "pin"],
+            "properties": {
+              "component": {
+                "type": "string",
+                "description": "Destination component ID"
+              },
+              "pin": {
+                "oneOf": [
+                  { "type": "integer" },
+                  { "type": "string" }
+                ],
+                "description": "Destination pin number or label"
+              }
+            }
+          },
+          "net_name": {
+            "type": "string",
+            "description": "Network label (e.g., VCC, GND, SENSOR_SIG)"
+          },
+          "crossing_only": {
+            "type": "boolean",
+            "description": "True if wires cross but are not electrically connected"
+          }
+        }
+      }
+    },
+    "modules": {
+      "type": "array",
+      "description": "Functional modules identified in the circuit",
+      "items": {
+        "type": "object",
+        "required": ["name_en", "components"],
+        "properties": {
+          "name_en": {
+            "type": "string",
+            "description": "Module name in English"
+          },
+          "name_cn": {
+            "type": "string",
+            "description": "Module name in Chinese"
+          },
+          "description_en": {
+            "type": "string",
+            "description": "Module description in English"
+          },
+          "description_cn": {
+            "type": "string",
+            "description": "Module description in Chinese"
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Component IDs belonging to this module"
+            }
+          },
+          "power_domain": {
+            "type": "string",
+            "description": "Voltage domain (e.g., 3.3V, 5V, 12V)"
+          }
+        }
+      }
+    },
+    "signals": {
+      "type": "array",
+      "description": "Key signals identified in the circuit",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Signal name (e.g., CLK, RESET, DATA)"
+          },
+          "direction": {
+            "type": "string",
+            "enum": ["input", "output", "bidirectional"],
+            "description": "Signal direction"
+          },
+          "level": {
+            "type": "string",
+            "description": "Signal voltage level (e.g., 3.3V, 5V)"
+          },
+          "source": {
+            "type": "string",
+            "description": "Signal source component/pin"
+          },
+          "destination": {
+            "type": "string",
+            "description": "Signal destination component/pin"
+          }
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Potential issues detected (e.g., floating pins, shorts)"
+      }
+    }
+  }
+}
