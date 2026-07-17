@@ -1,5 +1,13 @@
 # Circuit Diagram Recognition Skill
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+<p align="center">
+  <a href="README_zh-CN.md">
+    🇨🇳 中文版
+  </a>
+</p>
+
 > A high-precision OpenClaw Skill for converting circuit diagrams into structured JSON data.
 
 ## 📖 Overview
