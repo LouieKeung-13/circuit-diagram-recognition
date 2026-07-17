@@ -49,3 +49,10 @@ While the underlying VLMs are multilingual, circuit diagrams are an internationa
 ## 📄 License
 
 MIT License. Feel free to use and contribute!
+
+---
+
+
+*Compiled by LouieKeung · 2026 · Dynamic Token Compression Project*
+
+For more detailed information, please send an email to: markdlouis1995@gmail.com
