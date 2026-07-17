@@ -53,6 +53,6 @@ MIT License. Feel free to use and contribute!
 ---
 
 
-*Compiled by LouieKeung · 2026 · Dynamic Token Compression Project*
+*Compiled by LouieKeung · 2026*
 
 For more detailed information, please send an email to: markdlouis1995@gmail.com
